@@ -25,7 +25,6 @@ clean:
 
 run: 
 	$(TARGET);
-	# $(TARGET) arg1 arg2 # example with args
 
 # Tests
 # tester:
