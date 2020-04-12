@@ -3,32 +3,38 @@ CC := g++ # This is the main compiler
 SRCDIR := src
 BUILDDIR := build
 TARGET := bin/runner
+TEST_DIR=test
 
 SRCEXT := cpp
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
-CFLAGS := -g # -Wall
+CFLAGS := -g -std=c++11 # -Wall
 LIB := # -lSDL2 -lSDL2_image
 INC := -I include
 
+$(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
+	@echo "> Building ";
+	@mkdir -p $(BUILDDIR)
+	@echo " $(CC) $(CFLAGS) $(ARGSFLAGS) $(INC) -c -o $@ $<"; $(CC) $(CFLAGS) $(ARGSFLAGS) $(INC) -c -o $@ $<
+
 $(TARGET): $(OBJECTS)
-	@echo " Linking..."
+	@echo "> Linking ";
 	@echo " $(CC) $^ -o $(TARGET) $(LIB)"; $(CC) $^ -o $(TARGET) $(LIB)
 
-$(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
-	@mkdir -p $(BUILDDIR)
-	@echo " $(CC) $(CFLAGS) $(INC) -c -o $@ $<"; $(CC) $(CFLAGS) $(INC) -c -o $@ $<
-
 clean:
-	@echo " Cleaning...";
+	@echo "> Cleaning ";
 	@echo " $(RM) -r $(BUILDDIR) $(TARGET)"; $(RM) -r $(BUILDDIR) $(TARGET)
 
 run: 
-	$(TARGET);
+	$(TARGET)
 
-# Tests
-# tester:
-#   $(CC) $(CFLAGS) test/tester.cpp $(INC) $(LIB) -o bin/tester
+test:
+$(TEST_DIR): $(OBJECTS)
+	@echo " $(ARGSFLAGS)";
+	@echo "> Linking ";
+	$(CC) $(CFLAGS) $(INC) -o bin/run_test test/test_main.cpp $(OBJECTS) $(TEST_SRC)
+	@echo "> Running Test ";
+	@./bin/run_test
 
 # Spikes
 # ticket:
@@ -37,3 +43,5 @@ run:
 .PHONY: clean
 
 .PHONY : run
+
+.PHONY : test
