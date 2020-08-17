@@ -2,7 +2,10 @@ CC := g++ # This is the main compiler
 # CC := clang --analyze # and comment out the linker last line for sanity
 SRCDIR := src
 BUILDDIR := build
-TARGET := bin/runner
+# Executable bin.
+TARGET := build/program
+
+# Folder with test definition files.
 TEST_DIR=test
 
 SRCEXT := cpp
@@ -25,16 +28,16 @@ clean:
 	@echo "> Cleaning ";
 	@echo " $(RM) -r $(BUILDDIR) $(TARGET)"; $(RM) -r $(BUILDDIR) $(TARGET)
 
-run: 
+run:
 	$(TARGET)
 
 test:
 $(TEST_DIR): $(OBJECTS)
 	@echo " $(ARGSFLAGS)";
 	@echo "> Linking ";
-	$(CC) $(CFLAGS) $(INC) -o bin/run_test test/test_main.cpp $(OBJECTS) $(TEST_SRC)
+	$(CC) $(CFLAGS) $(INC) -o build/run_test test/test_main.cpp $(OBJECTS) $(TEST_SRC)
 	@echo "> Running Test ";
-	@./bin/run_test
+	@./build/run_test
 
 # Spikes
 # ticket:

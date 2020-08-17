@@ -16,5 +16,5 @@ _You need to perform a clean and then run the `test` recipe_
 >$ make test TEST_SRC=test/test_math.cpp ARGSFLAGS="-DUNIT_TESTING"
 ```
 
-- `TEST_SRC` parameter defined the component/class/file to test.
-- `ARGSFLAGS="-DUNIT_TESTING"` is a flag to say to the compiler to add a Macro when the preprocessor is linking the files, in order avoid the application's `main` function, and instead run the `main` that the Catch2 Testing framework provides.
+- `TEST_SRC` parameter that defines the component/class/file to test.
+- `ARGSFLAGS="-DUNIT_TESTING"` is flag that makes the compiler to add a Macro when the preprocessor is linking the files, in order avoid the application's `main` function, and instead run the `main` that the Catch2 Testing framework provides.
